@@ -14,6 +14,19 @@ class Api::V1::UsersController < ApplicationController
     render json: @user
   end
 
+  def login
+    @user = User.find_by(email: params[:email].downcase)
+    if @user
+      if @user.authenticate(params[:password])
+        render json: @user, status: :ok
+      else
+        render json: "Invalid email or password", status: :unauthorized
+      end
+    else
+      render json: "Unregistered account", status: :unauthorized
+    end
+  end
+
   # POST /users
   def create
     @user = User.new(user_params)

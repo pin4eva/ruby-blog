@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users
+      post "users/login", to: "users#login"
+      resources :users, except: %i[login]
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
